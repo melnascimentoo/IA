@@ -6,48 +6,108 @@ const textoResultado = document.querySelector(".texto-resultado");
 
 const perguntas = [
     {
-        enunciado: "Assim que saiu da escola você se depara com uma nova tecnologia, um chat que consegue responder todas as dúvidas que uma pessoa pode ter, ele também gera imagens e áudios hiper-realistas. Qual o primeiro pensamento?",
+        enunciado: "Era uma noite chuvosa e você decidiu preparar algo especial para o jantar. Abriu a geladeira, pensativo, e encontrou dois ingredientes principais: um belo pedaço de salmão fresco e um cesto de cogumelos recém-colhidos",
         alternativas: [
-            "Isso é assustador!",
-            "Isso é maravilhoso!"
+            {
+                texto: "Preparar um salmão grelhado com ervas finas.",
+                afirmacao: "você se anima com a ideia e vai buscar ingredientes "
+            },
+            {
+                texto: "Fazer um risoto cremoso de cogumelos.",
+                afirmacao: "você busca a receita na internet."
+            }
         ]
     },
     {
-        enunciado: "Com a descoberta desta tecnologia, chamada Inteligência Artificial (IA), uma professora de tecnologia da escola decidiu fazer uma sequência de aulas sobre esta tecnologia. No fim de uma aula ela pede que você escreva um trabalho sobre o uso de IA em sala de aula. Qual atitude você toma?",
+        enunciado: "Você espera o prato principal esfriar um pouco, arruma a mesa e pega o celular nota que falta algo... A sobremesa é claro! Qual você escolhe?",
         alternativas: [
-            "Utiliza uma ferramenta de busca na internet que utiliza IA para que ela ajude a encontrar informações relevantes para o trabalho e explique numa linguagem que facilite o entendimento.",
-            "Escreve o trabalho com base nas conversas que teve com colegas, algumas pesquisas na internet e conhecimentos próprios sobre o tema.",
+            {
+                texto: "Fazer brownie de caramelo com amendoim e flor de sal.",
+                afirmacao: "Agora tudo está perfeito para a janta!."
+            },
+            {
+                texto: "Preparar cookies recheados.",
+                afirmacao: "Você esqueceu dos cookies no forno e queimou todos."
+            }
         ]
     },
     {
-        enunciado: "Após a elaboração do trabalho, a professora realizou um debate entre a turma para entender como foi realizada a pesquisa e escrita. Nessa conversa também foi levantado um ponto muito importante: como a IA impacta o trabalho do futuro. Nesse debate, como você se posiciona?",
+        enunciado: "Apos a janta você lava a louça e se deita no sofá, finalmente pega o controle e entra em uma plataforma de streaming. Qual filme irá ver hoje??",
         alternativas: [
-            "Defende a ideia de que a IA pode criar novas oportunidades de emprego e melhorar habilidades humanas.",
-            "Me preocupo com as pessoas que perderão seus empregos para máquinas e defendem a importância de proteger os trabalhadores."
+            {
+                texto: "Vingadores ultimato.",
+                afirmacao: "Você assistiu todos os filmes de vingadores e foi domir tarde."
+            },
+            {
+                texto: "Operação cupido.",
+                afirmacao: "O filme foi incrível."
+            }
         ]
     },
     {
-        enunciado: "Ao final da discussão, você precisou criar uma imagem no computador que representasse o que pensa sobre IA. E agora?",
+        enunciado: "Antes de dormir você vai tomar banho e escole um pijama, qual deles é melhor?",
         alternativas: [
-            "Criar uma imagem utilizando uma plataforma de design como o Paint.",
-            "Criar uma imagem utilizando um gerador de imagem de IA."
+            {
+                texto: "Conjunto combinando curto.",
+                afirmacao: "Você passou frio a noite."
+            },
+            {
+                texto: "Pijama comprido.",
+                afirmacao: "Você teve uma ótima noite de sono!"
+            }
         ]
     },
     {
-        enunciado: "Você tem um trabalho em grupo de biologia para entregar na semana seguinte, o andamento do trabalho está um pouco atrasado e uma pessoa do seu grupo decidiu fazer com ajuda de uma IA. O problema é que o trabalho está totalmente igual ao do chat. O que você faz?",
+        enunciado: "A janela do seu quarto está levemente aberta, oque fazer agora? ",
         alternativas: [
-           "Escrever comandos para o chat é uma forma de contribuir com o trabalho, por isso não é um problema utilizar o texto inteiro.",
-            "O chat pode ser uma tecnologia muito avançada, mas é preciso manter a atenção pois toda máquina erra, por isso revisar o trabalho e contribuir com as perspectivas pessoais é essencial."
+            {
+                texto: "Fechar completamente.",
+                afirmacao: "Bons sonhos."
+            },
+            {
+                texto: "Deixar assim.",
+                afirmacao: "Bons sonhos."
+            }
         ]
     },
 ];
 
+
 let atual = 0;
 let perguntaAtual;
+let historiaFinal = "";
 
 function mostraPergunta() {
+    if (atual >= perguntas.length) {
+        mostraResultado();
+        return;
+    }
     perguntaAtual = perguntas[atual];
     caixaPerguntas.textContent = perguntaAtual.enunciado;
+    caixaAlternativas.textContent = "";
+    mostraAlternativas();
+}
+
+function mostraAlternativas(){
+    for(const alternativa of perguntaAtual.alternativas) {
+        const botaoAlternativas = document.createElement("button");
+        botaoAlternativas.textContent = alternativa.texto;
+        botaoAlternativas.addEventListener("click", () => respostaSelecionada(alternativa));
+        caixaAlternativas.appendChild(botaoAlternativas);
+    }
+}
+
+function respostaSelecionada(opcaoSelecionada) {
+    const afirmacoes = opcaoSelecionada.afirmacao;
+    historiaFinal += afirmacoes + " ";
+    atual++;
+    mostraPergunta();
+}
+
+function mostraResultado() {
+    caixaPerguntas.textContent = "No dia seguinte...";
+    textoResultado.textContent = historiaFinal;
+    caixaAlternativas.textContent = "";
 }
 
 mostraPergunta();
